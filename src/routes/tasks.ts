@@ -2,6 +2,9 @@ import express, { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { users } from '../db/Database';
 import { Task } from '../models/Task';
+import { createTaskEffect } from '../effects/CreateTaskEffect';
+import { Effect, pipe } from 'effect';
+import { error } from 'effect/Brand';
 
 type TaskStatus = "To Do" | "In Progress" | "Done";
 
@@ -14,20 +17,16 @@ interface TaskRequestBody {
 
 const router = express.Router({ mergeParams: true });
 
-router.post('/', (req: Request<{ user_id: string }, {}, TaskRequestBody>, res: Response) => {
+router.post('/',async (req: Request<{ user_id: string }, {}, TaskRequestBody>, res: Response) => {
    const { user_id } = req.params;
    const { title, description, dueDate, status } = req.body;
 
-   if (!users.has(user_id)) {
-      return res.status(404).send({ error: 'User not found' });
+   try {
+      const task = await createTaskEffect({ userId: user_id, title, description, dueDate, status });
+      res.status(201).send(task);
+   } catch (err: any) {
+      res.status(404).send({ error: err.message });
    }
-
-   const user = users.get(user_id)!;
-   const taskId = uuidv4();
-   const task: Task = { id: taskId, title, description, dueDate: new Date(dueDate), status };
-
-   user.tasks.push(task);
-   res.status(201).send(task);
 });
 
 router.get('/', (req: Request<{ user_id: string }, {}, {}>, res: Response) => {
