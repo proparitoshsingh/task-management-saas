@@ -31,7 +31,7 @@ describe('Integration Tests', () => {
       };
 
       const taskRes = await request(app).post(`/users/${userId}/tasks`).send(taskData);
-      expect(taskRes.status).toBe(201);
+      expect(taskRes.status).toBe(201); 
       expect(taskRes.body.value).toHaveProperty('id');
 
       // Retrieve the task
