@@ -50,7 +50,7 @@ describe('Tasks Router', () => {
 
       const res = await request(app).get(`/users/${userId}/tasks`);
       expect(res.status).toBe(200);
-      expect(res.body).toEqual([{ ...task, dueDate: task.dueDate.toISOString() }]);
+      expect(res.body.value).toEqual([{ ...task, dueDate: task.dueDate.toISOString() }]);
 
    });
 
@@ -60,7 +60,7 @@ describe('Tasks Router', () => {
 
       const res = await request(app).get(`/users/${userId}/tasks/${task.id}`);
       expect(res.status).toBe(200);
-      expect(res.body).toEqual({ ...task, dueDate: task.dueDate.toISOString() });
+      expect(res.body.value).toEqual({ ...task, dueDate: task.dueDate.toISOString() });
    });
 
    it('should update a specific task for a user', async () => {
@@ -76,7 +76,7 @@ describe('Tasks Router', () => {
 
       const res = await request(app).put(`/users/${userId}/tasks/${task.id}`).send(updatedTaskData);
       expect(res.status).toBe(200);
-      expect(res.body).toMatchObject({
+      expect(res.body.value).toMatchObject({
          ...updatedTaskData,
          dueDate: new Date(updatedTaskData.dueDate).toISOString(),
       });
