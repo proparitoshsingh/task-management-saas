@@ -4,9 +4,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "nodemon dist/server.js",
     "build": "tsc",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "author": "Paritosh Singh",
   "license": "ISC",
