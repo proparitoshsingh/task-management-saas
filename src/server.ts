@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import userRoutes from './routes/users';
-import taskRoutes from './routes/tasks';
+const userRoutes = require('./routes/users');
+const taskRoutes = require('./routes/tasks');
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT as string, 10) || 3000;

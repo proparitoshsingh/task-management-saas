@@ -12,4 +12,4 @@ router.post('/', (req: Request, res: Response) => {
    res.status(201).send({ id: userId });
 });
 
-export default router;
+module.exports = router;

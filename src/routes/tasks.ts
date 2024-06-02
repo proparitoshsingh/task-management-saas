@@ -98,4 +98,4 @@ router.delete('/:task_id', (req: Request<{ user_id: string; task_id: string }, {
    res.status(204).send();
 });
 
-export default router;
+module.exports = router;
